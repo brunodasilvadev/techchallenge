@@ -33,24 +33,24 @@ jobs:
     - name: Publish Worker Service project
       run: dotnet publish --configuration Release --output ./output/worker
 
-unit-tests:
-  runs-on: ubuntu-latest
-  needs: build
+  unit-tests:
+    runs-on: ubuntu-latest
+    needs: build
 
-  steps:
-  - name: Checkout code
-    uses: actions/checkout@v2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-  - name: Set up .NET Core
-    uses: actions/setup-dotnet@v2
-    with:
-      dotnet-version: '8.x'
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '8.x'
 
-  - name: Restore dependencies
-    run: dotnet restore
+    - name: Restore dependencies
+      run: dotnet restore
 
-  - name: Run unit tests
-    run: dotnet test --no-restore --verbosity normal ./src/TechChallenge.CadastroContato.UnitTests/TechChallenge.CadastroContato.UnitTests.csproj
+    - name: Run unit tests
+      run: dotnet test --no-restore --verbosity normal ./src/TechChallenge.CadastroContato.UnitTests/TechChallenge.CadastroContato.UnitTests.csproj
 
   integration-tests:
     runs-on: ubuntu-latest
