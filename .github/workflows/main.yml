@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
 
-    setps:
+    steps:
     - name: Run unit tests
       run: dotnet test --no-restore --verbosity normal
 
