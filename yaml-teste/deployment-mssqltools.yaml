@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mssqltools
+  labels:
+    app: mssqltools
+  annotations:
+    description: "MSSQL Tools service"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssqltools
+  template:
+    metadata:
+      labels:
+        app: mssqltools
+    spec:
+      containers:
+      - name: mssqltools
+        image: mcr.microsoft.com/mssql-tools
+        command: ["/bin/bash", "/tmp/init-basetechchallenge.sh"]
+        volumeMounts:
+        - name: sql-scripts
+          mountPath: /tmp
+      volumes:
+      - name: sql-scripts
+        configMap:
+          name: sql-scripts-config

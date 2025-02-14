@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sql-scripts-config
+data:
+  01-BaseTechChallenge.sql: |
+    -- conteúdo do arquivo 01-BaseTechChallenge.sql
+  02-BaseTechChallenge.sql: |
+    -- conteúdo do arquivo 02-BaseTechChallenge.sql
+  init-basetechchallenge.sh: |
+    #!/bin/bash
+    /opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P "Teste@123" -d master -i /tmp/01-BaseTechChallenge.sql
+    /opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P "Teste@123" -d master -i /tmp/02-BaseTechChallenge.sql

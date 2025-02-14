@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  RABBITMQ_DEFAULT_USER: guest
+  RABBITMQ_DEFAULT_PASS: guest
+  SA_PASSWORD: "Teste@123"
+  ACCEPT_EULA: "Y"
+  MSSQL_PID: "Developer"

@@ -1,0 +1,52 @@
+# Use uma imagem base do .NET SDK
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
+WORKDIR /src
+WORKDIR /src/TechChallenge.CadastroContato.Api
+WORKDIR /src/TechChallenge.CadastroContato.Command
+WORKDIR /src/TechChallenge.CadastroContato.CommandStore
+WORKDIR /src/TechChallenge.CadastroContato.Contract
+WORKDIR /src/TechChallenge.CadastroContato.Core
+WORKDIR /src/TechChallenge.CadastroContato.Event
+WORKDIR /src/TechChallenge.CadastroContato.IntegrationTests
+WORKDIR /src/TechChallenge.CadastroContato.Language
+WORKDIR /src/TechChallenge.CadastroContato.Query
+WORKDIR /src/TechChallenge.CadastroContato.QueryStore
+WORKDIR /src/TechChallenge.CadastroContato.UnitTests
+WORKDIR /src
+
+# Copie os arquivos .csproj e restaure depend�ncias
+COPY ["src/TechChallenge.CadastroContato.Api/TechChallenge.CadastroContato.Api.csproj", "src/TechChallenge.CadastroContato.Api/"]
+COPY ["src/TechChallenge.CadastroContato.Command/TechChallenge.CadastroContato.Command.csproj", "src/TechChallenge.CadastroContato.Command/"]
+COPY ["src/TechChallenge.CadastroContato.CommandStore/TechChallenge.CadastroContato.CommandStore.csproj", "src/TechChallenge.CadastroContato.CommandStore/"]
+COPY ["src/TechChallenge.CadastroContato.Contract/TechChallenge.CadastroContato.Contract.csproj", "src/TechChallenge.CadastroContato.Contract/"]
+COPY ["src/TechChallenge.CadastroContato.Core/TechChallenge.CadastroContato.Core.csproj", "src/TechChallenge.CadastroContato.Core/"]
+COPY ["src/TechChallenge.CadastroContato.IntegrationTests/TechChallenge.CadastroContato.IntegrationTests.csproj", "src/TechChallenge.CadastroContato.IntegrationTests/"]
+COPY ["src/TechChallenge.CadastroContato.Language/TechChallenge.CadastroContato.Language.csproj", "src/TechChallenge.CadastroContato.Language/"]
+COPY ["src/TechChallenge.CadastroContato.Query/TechChallenge.CadastroContato.Query.csproj", "src/TechChallenge.CadastroContato.Query/"]
+COPY ["src/TechChallenge.CadastroContato.QueryStore/TechChallenge.CadastroContato.QueryStore.csproj", "src/TechChallenge.CadastroContato.QueryStore/"]
+COPY ["src/TechChallenge.CadastroContato.UnitTests/TechChallenge.CadastroContato.UnitTests.csproj", "src/TechChallenge.CadastroContato.UnitTests/"]
+RUN dotnet restore "src/TechChallenge.CadastroContato.Api/TechChallenge.CadastroContato.Api.csproj"
+
+# Copie o restante dos arquivos e compile a aplica��o
+COPY . .
+RUN dotnet build "src/TechChallenge.CadastroContato.Api/TechChallenge.CadastroContato.Api.csproj" -c Release -o /app/build
+
+# Publica��o dos projetos principais
+FROM build AS publish
+RUN dotnet publish "src/TechChallenge.CadastroContato.Api/TechChallenge.CadastroContato.Api.csproj" -c Release -o /app/publish/api /p:UseAppHost=false
+
+# Use uma imagem base do runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+
+EXPOSE 443
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV ASPNETCORE_ENVIRONMENT=Development
+
+COPY --from=publish /app/publish/api ./api/
+
+# Comando para iniciar a aplicação
+CMD ["dotnet", "api/TechChallenge.CadastroContato.Api.dll"]

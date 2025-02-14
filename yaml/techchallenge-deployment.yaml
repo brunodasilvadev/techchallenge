@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techchallenge-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: techchallenge
+  template:
+    metadata:
+      labels:
+        app: techchallenge
+    spec:
+      containers:
+        - name: techchallenge
+          image: brunodasilvadev/techchallenge:latest

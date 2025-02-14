@@ -1,0 +1,2 @@
+/opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P Teste@123 -d master -i /tmp/01-BaseTechChallenge.sql
+/opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P Teste@123 -d master -i /tmp/02-BaseTechChallenge.sql

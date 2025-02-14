@@ -1,0 +1,211 @@
+trigger:
+  branches:
+    include:
+      - '*'
+
+variables:
+  buildConfiguration: 'Release'
+  repositorio: 'FIAP-5NETT'
+  sqlServerPassword: 'Teste@123'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: 'Build'
+  displayName: 'Build the web application'
+  jobs: 
+  - job: 'Build'
+    displayName: 'Build job'
+    steps:
+    - task: NuGetAuthenticate@1
+      displayName: 'Authenticate NuGet feed'
+
+    - task: UseDotNet@2
+      displayName: 'Install .NET Core SDK'
+      inputs:
+        version: 8.x
+        performMultiLevelLookup: true
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore API dependencies'
+      inputs:
+        command: 'restore'
+        projects: 'src/TechChallenge.CadastroContato.Api/TechChallenge.CadastroContato.Api.csproj'
+        feedsToUse: 'select'
+        vstsFeed: 'FIAP-5NETT' 
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore Worker Service dependencies'
+      inputs:
+        command: 'restore'
+        projects: 'src/TechChallenge.CadastroContato.AmqpWorker/TechChallenge.CadastroContato.AmqpWorker.csproj'
+        feedsToUse: 'select'
+        vstsFeed: 'FIAP-5NETT'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build API project'
+      inputs:
+        command: 'build'
+        projects: 'src/TechChallenge.CadastroContato.Api/TechChallenge.CadastroContato.Api.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build Worker Service project'
+      inputs:
+        command: 'build'
+        projects: 'src/TechChallenge.CadastroContato.AmqpWorker/TechChallenge.CadastroContato.AmqpWorker.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish API project'
+      inputs:
+        command: 'publish'
+        publishWebProjects: true
+        projects: 'src/TechChallenge.CadastroContato.Api/TechChallenge.CadastroContato.Api.csproj'
+        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
+        zipAfterPublish: true
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish Worker Service project'
+      inputs:
+        command: 'publish'
+        projects: 'src/TechChallenge.CadastroContato.AmqpWorker/TechChallenge.CadastroContato.AmqpWorker.csproj'
+        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/worker'
+        zipAfterPublish: true
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/api'
+        artifactName: 'TechChallengeApi'
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/worker'
+        artifactName: 'TechChallengeWorker'
+
+- stage: 'UnitTests'
+  displayName: 'Run Unit Tests'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+    - job: 'RunUnitTests'
+      displayName: 'Running Unit Tests'
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - task: DotNetCoreCLI@2
+          inputs:
+            command: 'test'
+            projects: '**/*UnitTest*.csproj'
+            arguments: '--configuration $(buildConfiguration) --logger trx'
+
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'VSTest'
+            testResultsFiles: '**/*.trx'
+            searchFolder: '$(Agent.TempDirectory)'
+
+- stage: 'IntegrationTests'
+  displayName: 'Run Integration Tests'
+  dependsOn: UnitTests
+  condition: succeeded()
+  jobs:
+    - job: 'RunIntegrationTests'
+      displayName: 'Running Integration Tests'
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - task: Docker@2
+          displayName: 'Start SQL Server'
+          inputs:
+            containerRegistry: ''
+            repository: 'mcr.microsoft.com/mssql/server'
+            command: 'run'
+            arguments: '-e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$(sqlServerPassword)" -p 1433:1433 --name sql_server -d mcr.microsoft.com/mssql/server'
+        
+        - script: |
+            echo "Waiting for SQL Server to start..."
+            # Aguardando a inicialização do SQL Server
+            for i in {1..30}; do
+              if sqlcmd -S localhost,1433 -U sa -P $(sqlServerPassword) -Q "SELECT 1" >/dev/null 2>&1; then
+                echo "SQL Server is up!"
+                break
+              fi
+              echo "Waiting for SQL Server..."
+              sleep 1
+            done
+
+        - script: |
+            echo "Creating database..."
+            sqlcmd -S localhost,1433 -U sa -P $(sqlServerPassword) -Q "CREATE DATABASE TECHCHALLENGE_TESTESINTEGRACAO"
+          displayName: 'Create Database'
+
+        - task: DotNetCoreCLI@2
+          inputs:
+            command: 'test'
+            projects: '**/*IntegrationTest*.csproj'
+            arguments: '--configuration $(buildConfiguration) --logger trx'
+
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'VSTest'
+            testResultsFiles: '**/*.trx'
+            searchFolder: '$(Agent.TempDirectory)'
+
+        - task: Docker@2
+          displayName: 'Stop SQL Server'
+          inputs:
+            command: 'stop'
+            container: 'sql_server'
+
+- stage: 'Development'
+  displayName: 'Deploy to the Development'
+  dependsOn: IntegrationTests
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+  jobs:
+    - deployment: DevDeployment
+      environment: development
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: current
+                artifact: TechChallengeApi
+              - script: |
+                  echo O deploy em Development foi feito com sucesso
+                displayName: 'Deploy to the Development'
+
+- stage: 'Staging'
+  displayName: 'Deploy to the Staging environment'
+  dependsOn: IntegrationTests
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/hml'))
+  jobs:
+    - deployment: Deploy
+      environment: staging
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: current
+                artifact: TechChallengeApi
+              - script: |
+                  echo O deploy em Staging foi feito com sucesso
+                displayName: 'Deploy to the Staging'
+
+- stage: 'Production'
+  displayName: 'Deploy to the Production environment'
+  dependsOn: IntegrationTests
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+    - deployment: Deploy
+      environment: production
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: current
+                artifact: TechChallengeApi
+              - script: |
+                  echo O deploy em Production foi feito com sucesso
+                displayName: 'Deploy to the Production'

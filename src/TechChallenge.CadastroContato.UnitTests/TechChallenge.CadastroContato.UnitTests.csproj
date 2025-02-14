@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.6.0" />
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TechChallenge.CadastroContato.Api\TechChallenge.CadastroContato.Api.csproj" />
+    <ProjectReference Include="..\TechChallenge.CadastroContato.CommandStore\TechChallenge.CadastroContato.CommandStore.csproj" />
+    <ProjectReference Include="..\TechChallenge.CadastroContato.Command\TechChallenge.CadastroContato.Command.csproj" />
+    <ProjectReference Include="..\TechChallenge.CadastroContato.Contract\TechChallenge.CadastroContato.Contract.csproj" />
+    <ProjectReference Include="..\TechChallenge.CadastroContato.Core\TechChallenge.CadastroContato.Core.csproj" />
+    <ProjectReference Include="..\TechChallenge.CadastroContato.Language\TechChallenge.CadastroContato.Language.csproj" />
+    <ProjectReference Include="..\TechChallenge.CadastroContato.QueryStore\TechChallenge.CadastroContato.QueryStore.csproj" />
+    <ProjectReference Include="..\TechChallenge.CadastroContato.Query\TechChallenge.CadastroContato.Query.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amqpworker
+  labels:
+    app: amqpworker
+  annotations:
+    description: "AMQP Worker service"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: amqpworker
+  template:
+    metadata:
+      labels:
+        app: amqpworker
+    spec:
+      containers:
+      - name: amqpworker
+        image: your-amqpworker-image
+        env:
+        - name: RabbitMQ__Host
+          value: "rabbitmq"
+        - name: RabbitMQ__Username
+          value: "guest"
+        - name: RabbitMQ__Password
+          value: "guest"

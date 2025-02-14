@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+  annotations:
+    description: "API service"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: your-api-image
+        ports:
+        - containerPort: 8080
+        - containerPort: 443
+        env:
+        - name: RabbitMQ__Host
+          value: "rabbitmq"
+        - name: RabbitMQ__Username
+          value: "guest"
+        - name: RabbitMQ__Password
+          value: "guest"
+        - name: ASPNETCORE_URLS
+          value: "https://+:443;http://+:8080"
+        - name: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
+          value: "false"
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+          value: "YourPassword"
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+          value: "/https/aspnetapp.pfx"
+        volumeMounts:
+        - name: certs
+          mountPath: /https
+          readOnly: true
+      volumes:
+      - name: certs
+        hostPath:
+          path: /path/to/your/certs

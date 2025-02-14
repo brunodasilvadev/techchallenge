@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-TechChallenge.IncluirContato.AmqpWorker-29064978-1d70-4a91-a80f-27465c062bb2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.9.2" />
+    <PackageReference Include="MassTransit" Version="8.3.2" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.2" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TechChallenge.CadastroContato.CommandStore\TechChallenge.CadastroContato.CommandStore.csproj" />
+    <ProjectReference Include="..\TechChallenge.CadastroContato.Command\TechChallenge.CadastroContato.Command.csproj" />
+    <ProjectReference Include="..\TechChallenge.CadastroContato.Contract\TechChallenge.CadastroContato.Contract.csproj" />
+  </ItemGroup>
+
+</Project>
