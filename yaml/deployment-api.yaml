@@ -41,7 +41,7 @@ spec:
         - name: ASPNETCORE_Kestrel__Certificates__Default__Path
           value: "/https/aspnetapp.pfx"
         - name: ConnectionStrings__DefaultConnection
-          value: "Server=sqlserver;Database=TECHCHALLENGE;User Id=sa;Password=Teste@123;"
+          value: "Server=sqlserver;Database=TECHCHALLENGE;User Id=sa;Password=${{ secrets.SQL_SERVER_PASSWORD }};"
         - name: CORS__AllowedOrigins
           value: "localhost"
         volumeMounts:

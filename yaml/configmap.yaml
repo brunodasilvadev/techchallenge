@@ -5,6 +5,6 @@ metadata:
 data:
   RABBITMQ_DEFAULT_USER: guest
   RABBITMQ_DEFAULT_PASS: guest
-  SA_PASSWORD: "Teste@123"
+  SA_PASSWORD: ${{ secrets.SQL_SERVER_PASSWORD }}
   ACCEPT_EULA: "Y"
   MSSQL_PID: "Developer"

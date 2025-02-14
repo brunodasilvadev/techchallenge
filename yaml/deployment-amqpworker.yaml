@@ -27,4 +27,4 @@ spec:
         - name: RabbitMQ__Password
           value: "guest"
         - name: ConnectionStrings__DefaultConnection
-          value: "Server=sqlserver;Database=TECHCHALLENGE;User Id=sa;Password=Teste@123;"
+          value: "Server=sqlserver;Database=TECHCHALLENGE;User Id=sa;Password=${{ secrets.SQL_SERVER_PASSWORD }};"

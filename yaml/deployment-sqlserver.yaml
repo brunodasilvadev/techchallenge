@@ -21,7 +21,7 @@ spec:
         - containerPort: 1433
         env:
         - name: SA_PASSWORD
-          value: "Teste@123"
+          value: ${{ secrets.SQL_SERVER_PASSWORD }}
         - name: ACCEPT_EULA
           value: "Y"
         - name: MSSQL_PID
