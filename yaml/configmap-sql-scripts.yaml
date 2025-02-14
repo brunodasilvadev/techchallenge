@@ -9,5 +9,13 @@ data:
     -- conteúdo do arquivo 02-BaseTechChallenge.sql
   init-basetechchallenge.sh: |
     #!/bin/bash
+    # Espera até que o SQL Server esteja pronto
+    until /opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P "Teste@123" -Q "SELECT 1" &> /dev/null
+    do
+      echo "Aguardando o SQL Server iniciar..."
+      sleep 5
+    done
+
+    # Executa os scripts SQL
     /opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P "Teste@123" -d master -i /tmp/01-BaseTechChallenge.sql
     /opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P "Teste@123" -d master -i /tmp/02-BaseTechChallenge.sql

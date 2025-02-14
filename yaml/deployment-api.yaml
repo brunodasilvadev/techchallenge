@@ -7,7 +7,7 @@ metadata:
   annotations:
     description: "API service"
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: api
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: your-api-image
+        image: brunodasilvadev/techchallenge-api
         ports:
         - containerPort: 8080
         - containerPort: 443
@@ -34,14 +34,24 @@ spec:
         - name: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
           value: "false"
         - name: ASPNETCORE_Kestrel__Certificates__Default__Password
-          value: "YourPassword"
+          valueFrom:
+            secretKeyRef:
+              name: aspnetapp-cert
+              key: password
         - name: ASPNETCORE_Kestrel__Certificates__Default__Path
           value: "/https/aspnetapp.pfx"
+        - name: ConnectionStrings__DefaultConnection
+          value: "Server=sqlserver;Database=TECHCHALLENGE;User Id=sa;Password=Teste@123;"
+        - name: CORS__AllowedOrigins
+          value: "localhost"
         volumeMounts:
         - name: certs
           mountPath: /https
           readOnly: true
       volumes:
       - name: certs
-        hostPath:
-          path: /path/to/your/certs
+        secret:
+          secretName: aspnetapp-cert
+          items:
+          - key: aspnetapp.pfx
+            path: aspnetapp.pfx

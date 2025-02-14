@@ -22,7 +22,6 @@ services:
       MSSQL_PID: "Developer"
     ports:
       - "1433:1433"
-
   mssqltools:
     image: mcr.microsoft.com/mssql-tools
     depends_on:
@@ -34,7 +33,9 @@ services:
     command: /bin/bash ./tmp/init-basetechchallenge.sh
 
   api:
-    image: brunodasilvadev/techchallenge-api
+    build:
+      context: .
+      dockerfile: Dockerfile-api
     container_name: api
     depends_on:
       rabbitmq:
@@ -54,7 +55,9 @@ services:
       - "443:443"
 
   amqpworker:
-    image: brunodasilvadev/techchallenge-worker
+    build:
+      context: .
+      dockerfile: Dockerfile-amqpworker
     container_name: worker
     depends_on:
       rabbitmq:

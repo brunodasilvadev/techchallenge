@@ -8,7 +8,9 @@ spec:
   ports:
   - port: 8080
     targetPort: 8080
+    name: portahttp
   - port: 443
     targetPort: 443
+    name: portahttps
   selector:
     app: api

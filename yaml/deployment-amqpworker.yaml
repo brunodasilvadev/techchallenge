@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: amqpworker
-        image: your-amqpworker-image
+        image: brunodasilvadev/techchallenge-worker
         env:
         - name: RabbitMQ__Host
           value: "rabbitmq"
@@ -26,3 +26,5 @@ spec:
           value: "guest"
         - name: RabbitMQ__Password
           value: "guest"
+        - name: ConnectionStrings__DefaultConnection
+          value: "Server=sqlserver;Database=TECHCHALLENGE;User Id=sa;Password=Teste@123;"
