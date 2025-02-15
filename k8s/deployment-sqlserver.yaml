@@ -28,13 +28,13 @@ spec:
           value: "Developer"
         - name: MSSQL_AGENT_ENABLED
           value: "true"
-        resources:
-          requests:
-            memory: "75Mi"
-            cpu: "5m"
-          limits:
-            memory: "1024Mi"
-            cpu: "25m"
+       ## resources:
+       ##   requests:
+       ##     memory: "75Mi"
+       ##     cpu: "5m"
+       ##   limits:
+       ##     memory: "1024Mi"
+       ##     cpu: "25m"
         volumeMounts:
         - name: mssql-data
           mountPath: /var/opt/mssql
