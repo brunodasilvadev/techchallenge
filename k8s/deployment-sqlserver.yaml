@@ -28,7 +28,7 @@ spec:
             - containerPort: 1433
           env:
             - name: SA_PASSWORD
-              value: "Teste@!123"
+              value: "Teste@123"
             - name: ACCEPT_EULA
               value: "Y"
             - name: MSSQL_PID
