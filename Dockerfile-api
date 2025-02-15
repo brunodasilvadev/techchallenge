@@ -40,7 +40,6 @@ RUN dotnet publish "src/TechChallenge.CadastroContato.Api/TechChallenge.Cadastro
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 
-EXPOSE 443
 EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
