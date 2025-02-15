@@ -65,7 +65,7 @@ jobs:
 
     - name: Install sqlcmd
       run: |
-        docker run --rm mcr.microsoft.com/mssql-tools sqlcmd
+        docker run --rm mcr.microsoft.com/mssql-tools
 
     - name: Start SQL Server
       run: |
