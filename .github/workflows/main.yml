@@ -109,7 +109,6 @@ jobs:
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
         version: 1.21.0
 
-
     - name: Apply Kubernetes configurations
       run: |
         kubectl apply -f k8s/ingress.yaml
