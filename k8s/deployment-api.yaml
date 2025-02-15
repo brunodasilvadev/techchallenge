@@ -33,25 +33,7 @@ spec:
           value: "https://+:443;http://+:8080"
         - name: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
           value: "false"
-        - name: ASPNETCORE_Kestrel__Certificates__Default__Password
-          valueFrom:
-            secretKeyRef:
-              name: aspnetapp-cert
-              key: password
-        - name: ASPNETCORE_Kestrel__Certificates__Default__Path
-          value: "/https/aspnetapp.pfx"
         - name: ConnectionStrings__DefaultConnection
-          value: "Server=sqlserver;Database=TECHCHALLENGE;User Id=sa;Password=${{ secrets.SQL_SERVER_PASSWORD }};"
+          value: "Server=sqlserver;Database=TECHCHALLENGE;User Id=sa;Password=Teste@123;"
         - name: CORS__AllowedOrigins
           value: "localhost"
-        volumeMounts:
-        - name: certs
-          mountPath: /https
-          readOnly: true
-      volumes:
-      - name: certs
-        secret:
-          secretName: aspnetapp-cert
-          items:
-          - key: aspnetapp.pfx
-            path: aspnetapp.pfx
