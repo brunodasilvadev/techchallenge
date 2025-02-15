@@ -107,9 +107,13 @@ jobs:
       with:
         version: 'latest'
 
-    - name: Configure kubectl
-      run: |
-        echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
+    - name: Set up kubectl
+      uses: azure/k8s-set-context@v1
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBE_CONFIG_NEW }}
+        version: 1.21.0
+
 
     - name: Apply Kubernetes configurations
       run: |
