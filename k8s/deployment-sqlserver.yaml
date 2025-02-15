@@ -14,6 +14,13 @@ spec:
       labels:
         app: sqlserver
     spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chmod -R 777 /var/opt/mssql"]
+          volumeMounts:
+            - name: mssql-data
+              mountPath: /var/opt/mssql
       containers:
         - name: sqlserver
           image: mcr.microsoft.com/mssql/server:2019-latest
