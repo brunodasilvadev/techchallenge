@@ -24,7 +24,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: mssql-secret
-                  key: "Teste@123"
+                  key: "${SA_PASSWORD}"
             - name: ACCEPT_EULA
               value: "Y"
             - name: MSSQL_PID
