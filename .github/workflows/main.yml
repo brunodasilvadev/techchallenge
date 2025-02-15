@@ -74,12 +74,12 @@ jobs:
 
     - name: Start SQL Server
       run: |
-        docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=${{ secrets.SQL_SERVER_PASSWORD }}" -p 1433:1433 --name sql_server -d mcr.microsoft.com/mssql/server
+        docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Teste@123}" -p 1433:1433 --name sql_server -d mcr.microsoft.com/mssql/server
 
     - name: Wait for SQL Server to start
       run: |
         for i in {1..30}; do
-          if sqlcmd -S localhost,1433 -U sa -P ${{ secrets.SQL_SERVER_PASSWORD }} -Q "SELECT 1" >/dev/null 2>&1; then
+          if sqlcmd -S localhost,1433 -U sa -P Teste@123 -Q "SELECT 1" >/dev/null 2>&1; then
             echo "SQL Server is up!"
             break
           fi
@@ -89,7 +89,7 @@ jobs:
 
     - name: Create database
       run: |
-        sqlcmd -S localhost,1433 -U sa -P ${{ secrets.SQL_SERVER_PASSWORD }} -Q "CREATE DATABASE TECHCHALLENGE_TESTESINTEGRACAO"
+        sqlcmd -S localhost,1433 -U sa -P Teste@123 -Q "CREATE DATABASE TECHCHALLENGE_TESTESINTEGRACAO"
 
     - name: Run integration tests
       run: dotnet test --configuration Release --logger trx
