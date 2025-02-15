@@ -112,14 +112,14 @@ jobs:
 
     - name: Apply Kubernetes configurations
       run: |
-        kubectl apply -f ingress.yaml
-        kubectl apply -f configmap.yaml
-        kubectl apply -f deployment-rabbitmq.yaml
-        kubectl apply -f service-rabbitmq.yaml
-        kubectl apply -f deployment-sqlserver.yaml
-        kubectl apply -f service-sqlserver.yaml
-        kubectl apply -f pvc-sqlserver.yaml
-        kubectl apply -f deployment-api.yaml
-        kubectl apply -f service-api.yaml
-        kubectl apply -f deployment-amqpworker.yaml
-        kubectl apply -f service-amqpworker.yaml
+        kubectl apply -f k8s/ingress.yaml
+        kubectl apply -f k8s/configmap.yaml
+        kubectl apply -f k8s/deployment-rabbitmq.yaml
+        kubectl apply -f k8s/service-rabbitmq.yaml
+        kubectl apply -f k8s/deployment-sqlserver.yaml
+        kubectl apply -f k8s/service-sqlserver.yaml
+        kubectl apply -f k8s/pvc-sqlserver.yaml
+        kubectl apply -f k8s/deployment-api.yaml
+        kubectl apply -f k8s/service-api.yaml
+        kubectl apply -f k8s/deployment-amqpworker.yaml
+        kubectl apply -f k8s/service-amqpworker.yaml
