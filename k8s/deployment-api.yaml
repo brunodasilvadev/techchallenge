@@ -21,7 +21,6 @@ spec:
         image: brunodasilvadev/techchallenge-api
         ports:
         - containerPort: 8080
-        - containerPort: 443
         env:
         - name: RabbitMQ__Host
           value: "rabbitmq"
@@ -30,7 +29,7 @@ spec:
         - name: RabbitMQ__Password
           value: "guest"
         - name: ASPNETCORE_URLS
-          value: "https://+:443;http://+:8080"
+          value: "http://+:8080"
         - name: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
           value: "false"
         - name: ConnectionStrings__DefaultConnection
