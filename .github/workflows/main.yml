@@ -109,10 +109,6 @@ jobs:
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
         version: 1.21.0
 
-    - name: Configure Secrets
-      run: |
-        kubectl create secret generic mssql-secret --from-literal=SA_PASSWORD="${{ secrets.SQL_SERVER_PASSWORD }}" --dry-run=client -o yaml | kubectl apply -f -
-    
     - name: Apply Kubernetes configurations
       run: |
         kubectl apply -f k8s/ingress.yaml
