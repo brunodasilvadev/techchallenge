@@ -117,6 +117,7 @@ jobs:
 
     - name: Apply Kubernetes configurations
       run: |
+        kubectl apply -f ingress.yaml
         kubectl apply -f configmap.yaml
         kubectl apply -f deployment-rabbitmq.yaml
         kubectl apply -f service-rabbitmq.yaml
