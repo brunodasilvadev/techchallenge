@@ -30,11 +30,11 @@ spec:
           value: "true"
         resources:
           requests:
-            memory: "2Gi"
-            cpu: "1"
+            memory: "75Mi"
+            cpu: "5m"
           limits:
-            memory: "4Gi"
-            cpu: "2"
+            memory: "1024Mi"
+            cpu: "25m"
         volumeMounts:
         - name: mssql-data
           mountPath: /var/opt/mssql
