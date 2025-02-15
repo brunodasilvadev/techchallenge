@@ -120,7 +120,6 @@ jobs:
         kubectl apply -f k8s/deployment-rabbitmq.yaml
         kubectl apply -f k8s/service-rabbitmq.yaml
         kubectl apply -f k8s/deployment-sqlserver.yaml
-        kubectl apply -f deployment-sqlserver.yaml
         kubectl apply -f k8s/pvc-sqlserver.yaml
         kubectl apply -f k8s/deployment-api.yaml
         kubectl apply -f k8s/service-api.yaml
