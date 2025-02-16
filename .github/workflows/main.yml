@@ -118,6 +118,7 @@ jobs:
         kubectl apply -f k8s/pvc-sqlserver.yaml
         kubectl apply -f k8s/deployment-sqlserver.yaml
         kubectl apply -f k8s/service-sqlserver.yaml
+        kubectl apply -f k8s/deployment-mssqltools.yaml
         kubectl apply -f k8s/deployment-api.yaml
         kubectl apply -f k8s/service-api.yaml
         kubectl apply -f k8s/deployment-amqpworker.yaml
