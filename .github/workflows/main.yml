@@ -127,5 +127,5 @@ jobs:
         kubectl apply -f k8s/configmap-prometheus.yaml
         kubectl apply -f k8s/deployment-prometheus.yaml
         kubectl apply -f k8s/service-prometheus.yaml
-        kubectl apply -f k8s/grafana-deployment.yaml
-        kubectl apply -f k8s/grafana-service.yaml
+        kubectl apply -f k8s/deployment-grafana.yaml
+        kubectl apply -f k8s/service-grafana.yaml
