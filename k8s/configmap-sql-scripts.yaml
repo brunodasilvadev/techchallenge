@@ -4,10 +4,16 @@ metadata:
   name: sql-scripts-config
 data:
   01-BaseTechChallenge.sql: |
-    CREATE DATABASE TECHCHALLENGE;
+    IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'TECHCHALLENGE')
+    BEGIN
+        CREATE DATABASE TECHCHALLENGE;
+    END
     GO
 
     USE TECHCHALLENGE
+    GO
+
+    DROP TABLE IF EXISTS CODIGO_AREA_BRASIL;
     GO
 
     CREATE TABLE dbo.CODIGO_AREA_BRASIL (
@@ -19,6 +25,9 @@ data:
     );
     GO
 
+    DROP TABLE IF EXISTS CONTATO;
+    GO
+    
     CREATE TABLE dbo.CONTATO (
             ID INT PRIMARY KEY IDENTITY(1,1),
             NMUSUARIO NVARCHAR(255) NOT NULL,
