@@ -5,7 +5,7 @@ metadata:
   labels:
     app: sqlserver
 spec:
-  type: ClusterIp
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 1433
