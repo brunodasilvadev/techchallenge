@@ -124,3 +124,6 @@ jobs:
         kubectl apply -f k8s/service-api.yaml
         kubectl apply -f k8s/deployment-amqpworker.yaml
         kubectl apply -f k8s/service-amqpworker.yaml
+        kubectl apply -f k8s/configmap-prometheus.yaml
+        kubectl apply -f k8s/deployment-prometheus.yaml
+        kubectl apply -f k8s/service-prometheus.yaml
