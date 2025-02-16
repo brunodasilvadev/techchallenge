@@ -1,12 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: amqpworker
-  labels:
-    app: amqpworker
+  name: rabbitmq
 spec:
+  type: NodePort
   ports:
-  - port: 5672
-    targetPort: 5672
+    - name: amqp
+      port: 5672
+      targetPort: 5672
+      nodePort: 31672
+    - name: management
+      port: 15672
+      targetPort: 15672
+      nodePort: 31673
   selector:
-    app: amqpworker
+    app: rabbitmq
