@@ -5,7 +5,7 @@ metadata:
   labels:
     app: mssqltools
   annotations:
-    description: "MSSQL Tools service"
+    description: "Deployment da ferramenta MSSQL Tools service"
 spec:
   replicas: 1
   selector:

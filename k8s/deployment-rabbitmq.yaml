@@ -5,7 +5,7 @@ metadata:
   labels:
     app: rabbitmq
   annotations:
-    description: "RabbitMQ service"
+    description: "Deployment do serviço do RabbitMQ"
 spec:
   replicas: 1
   selector:

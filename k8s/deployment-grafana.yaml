@@ -4,6 +4,8 @@ metadata:
   name: grafana
   labels:
     app: grafana
+  annotations:
+    description: "Deployment do Grafana para exibição do dashboard de métricas capturadas pelo Prometheus"    
 spec:
   replicas: 1
   selector:

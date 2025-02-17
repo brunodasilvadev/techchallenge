@@ -4,6 +4,8 @@ metadata:
   name: prometheus
   labels:
     app: prometheus
+  annotations:
+    description: "Deployment Prometheus para monitoramento de métricas da aplicação"
 spec:
   replicas: 1
   selector:

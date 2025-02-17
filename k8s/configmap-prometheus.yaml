@@ -3,7 +3,9 @@ kind: ConfigMap
 metadata:
   name: prometheus-config
   labels:
-    name: prometheus-config
+    app: prometheus-config
+  annotations:
+    description: "Configuração do Prometheus para monitoramento da API."
 data:
   prometheus.yml: |
     global:

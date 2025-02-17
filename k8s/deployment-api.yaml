@@ -5,9 +5,9 @@ metadata:
   labels:
     app: api
   annotations:
-    description: "API service"
+    description: "Deployment API Contatos"
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: api

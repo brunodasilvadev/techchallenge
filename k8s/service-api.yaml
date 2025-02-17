@@ -4,6 +4,8 @@ metadata:
   name: api
   labels:
     app: api
+  annotations:
+    description: "Service para API Contatos."
 spec:
   type: LoadBalancer
   ports:

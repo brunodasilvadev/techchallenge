@@ -4,6 +4,8 @@ metadata:
   name: rabbitmq
   labels:
     app: rabbitmq
+  annotations:
+    description: "Service para rabbitmq"    
 spec:
   ports:
   - port: 5672

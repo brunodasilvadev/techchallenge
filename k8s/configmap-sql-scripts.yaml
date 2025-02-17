@@ -2,6 +2,10 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sql-scripts-config
+  labels:
+    app: prometheus-config
+  annotations:
+    description: "Configuração de scripts SQL para inicialização do banco de dados."
 data:
   01-BaseTechChallenge.sql: |
     IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'TECHCHALLENGE')

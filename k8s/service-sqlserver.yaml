@@ -4,6 +4,8 @@ metadata:
   name: sqlserver
   labels:
     app: sqlserver
+  annotations:
+    description: "Service para sqlserver" 
 spec:
   type: ClusterIP
   ports:

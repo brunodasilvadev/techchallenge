@@ -5,7 +5,7 @@ metadata:
   labels:
     app: amqpworker
   annotations:
-    description: "AMQP Worker service"
+    description: "Deployment do Worker do RabbitMq"
 spec:
   replicas: 1
   selector:
