@@ -28,7 +28,7 @@ namespace TechChallenge.CadastroContato.Api.Controllers
         /// <summary>
         /// Busca os dados de contato.
         /// </summary>
-        /// <param name="queryRequest">Filtros para realizar consulta</param>
+        /// <param name="queryRequest">Filtros para realizar consulta dos nossos contatos</param>
         /// <returns>Dados de contato</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<PesquisarContatosQueryResult>), (int)HttpStatusCode.OK)]
